@@ -4,7 +4,7 @@ const fs = require("fs");
 const request = require('request');
 const {Attachment} = require('discord.js');
 
-const { Token, Marmiton_ID_Channel } = require('./config');
+const { Token } = require('./config');
 
 
 client.on('warn', console.warn);
