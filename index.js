@@ -19,6 +19,29 @@ client.on('ready', () => {
     .catch(console.error);
 });
 
+client.on("ready", () => {
+	console.log(`Logged in as ${client.user.tag}!`);
+	const activities_list = [
+    	"Default Prefix: _",
+    	"Hoppy: twitter.com/drtortue"
+    ];
+    setInterval(() => {
+        const index = Math.floor(Math.random() * (activities_list.length - 1) + 1);
+    	client.user.setPresence(
+		{
+			status: "idle",
+			afk: false,
+			game:
+			{
+				name: activities_list[index],
+				url: "https://twitch.tv/drtortue1",
+				type: "STREAMING"
+			}
+		});
+    }, 10000);
+
+});
+
 
 // Random Function
 function getRandomInt(min, max)
@@ -102,8 +125,7 @@ function GetSaviezVousQue(id)
 }
 
 // Event get all message
-client.on('message', function(message)
-{
+
     if (message.channel instanceof Discord.DMChannel) return false; // Block private message
     let messages = message.content.split(" ")
     
@@ -111,18 +133,57 @@ client.on('message', function(message)
     let cmd = messageArray[0].toLowerCase();
     let args = messageArray.slice(1);
 
-    // Send Recipe in command "Marmiton"
-    if (cmd === "marmiton")
-    {
-        GetMarmiton(message.channel.id);
-    }
-
-    // Send Image in command "SVQ"
-    if (cmd === "svq")
-    {
-        GetSaviezVousQue(message.channel.id);
-    }
+// Event get all message
+client.on("message", message => {
+	
+	let prefix = "_";
+	if (!message.content.startsWith(prefix)) return false; // Don't look the message without the prefix
+	let messageLower = message.content.toLowerCase(); // Lower the string
+	let messageNoPrefix = messageLower.replace(prefix, ""); // Remove prefix in check
+	let messageArray = messageNoPrefix.split(" "); // Create Argument Array
+	let cmd = messageArray[0]; 
+	let args = messageArray.slice(1);
+	
+	
+	if (message.channel instanceof Discord.DMChannel) return false; // Block private message
+	switch (cmd)
+	{
+		// **** START COMMAND LIST ****
+		case "ping":
+			// **** START PING COMMAND ****
+			var Ping = client.ping; // Get Ping of the bot
+			switch (true) // Switch for a message for a different ping
+			{
+				case (Ping > 200 ):
+					message.channel.send(`Houston, we have a problem.. ${Ping} ms`);
+        				break;
+				case (Ping < 200 && Ping > 100):
+					message.channel.send(`Bon, faudrait penser à prendre un meilleur serveur.. ${Ping} ms`);
+        				break; 
+    	    			case (Ping < 100 && Ping > 15):
+    	    				message.channel.send(`Il y a mieux mais c'est déjà bien. ${Ping} ms`);
+       		 			break;
+        			case (Ping < 15):
+        				message.channel.send(`Le serveur de la nasa où je suis loué !! :O ${Ping} ms`);
+        				break;
+        		default:
+        			message.channel.send("Et là c'est le bug..")
+			}
+			break;
+			// **** END PING COMMAND ****
+			// **** START Marmiton / Saviez Vous que COMMAND ****
+		case "svq":
+			GetSaviezVousQue(message.channel.id);
+			break;
+		case "marmiton":
+			GetMarmiton(message.channel.id);
+			break;
+		// **** END Marmiton / Saviez Vous que COMMAND ****
+			
+		// **** END COMMAND LIST ****
+		default:
+			console.log(`Commande {${cmd}} effectué mais introuvable..`);
+	}
 });
-
 
 client.login(Token);
