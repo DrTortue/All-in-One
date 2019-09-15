@@ -118,7 +118,7 @@ client.on('message', function(message)
     }
 
     // Send Image in command "SVQ"
-    if (cmd === "SVQ")
+    if (cmd === "svq")
     {
         GetSaviezVousQue(message.channel.id);
     }
