@@ -125,15 +125,6 @@ function GetSaviezVousQue(id)
 }
 
 // Event get all message
-
-    if (message.channel instanceof Discord.DMChannel) return false; // Block private message
-    let messages = message.content.split(" ")
-    
-    let messageArray = message.content.split(" ");
-    let cmd = messageArray[0].toLowerCase();
-    let args = messageArray.slice(1);
-
-// Event get all message
 client.on("message", message => {
 	
 	let prefix = "_";
