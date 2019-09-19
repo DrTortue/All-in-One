@@ -11,13 +11,6 @@ client.on('warn', console.warn);
 
 client.on('error', console.error);
 
-client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`);
-  
-    client.user.setPresence({ game: { name: "Simply Bot" } })
-    .then(console.log)
-    .catch(console.error);
-});
 
 client.on("ready", () => {
 	console.log(`Logged in as ${client.user.tag}!`);
