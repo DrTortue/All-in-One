@@ -117,6 +117,14 @@ function GetSaviezVousQue(id)
     })
 }
 
+function GETWIKI(id, search)
+{
+    request("https://fr.wikihow.com/wikiHowTo?search=" + encodeURI(search), function (error, response, body)
+    {
+        client.channels.get(id).send(body.match(/(https?:\/\/[^\s]+)/g)[17].replace('"', ''))
+    });
+}
+
 // Event get all message
 client.on("message", message => {
 	
@@ -161,6 +169,9 @@ client.on("message", message => {
 			break;
 		case "marmiton":
 			GetMarmiton(message.channel.id);
+			break;
+		case "how":
+			GETWIKI(message.channel.id, args.join(" ").slice(22));
 			break;
 		// **** END Marmiton / Saviez Vous que COMMAND ****
 			
